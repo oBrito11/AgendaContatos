@@ -47,6 +47,7 @@ namespace AgendaContatos
             this.btnConsultar = new System.Windows.Forms.Button();
             this.btnExibir = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.txtTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -70,7 +71,6 @@ namespace AgendaContatos
             this.txtId.Size = new System.Drawing.Size(25, 17);
             this.txtId.TabIndex = 1;
             this.txtId.Text = "ID:";
-            this.txtId.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtNome
             // 
@@ -153,6 +153,7 @@ namespace AgendaContatos
             this.btnAdicionar.TabIndex = 11;
             this.btnAdicionar.Text = "Adicionar";
             this.btnAdicionar.UseVisualStyleBackColor = false;
+            this.btnAdicionar.Click += new System.EventHandler(this.btnAdicionar_Click);
             // 
             // btnEditar
             // 
@@ -208,12 +209,23 @@ namespace AgendaContatos
             this.dataGridView1.Size = new System.Drawing.Size(676, 194);
             this.dataGridView1.TabIndex = 16;
             // 
+            // txtTitle
+            // 
+            this.txtTitle.AutoSize = true;
+            this.txtTitle.Font = new System.Drawing.Font("Arial", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTitle.Location = new System.Drawing.Point(69, 25);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(286, 33);
+            this.txtTitle.TabIndex = 17;
+            this.txtTitle.Text = "Agenda de Contatos";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(882, 632);
+            this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnExibir);
             this.Controls.Add(this.btnConsultar);
@@ -260,6 +272,7 @@ namespace AgendaContatos
         private System.Windows.Forms.Button btnConsultar;
         private System.Windows.Forms.Button btnExibir;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label txtTitle;
     }
 }
 
