@@ -33,28 +33,137 @@ namespace AgendaContatos
         {
             try
             {
-                conexao = new MySqlConnection("Server=localhost;Database=gestorclientes;Uid=root;Pwd=password;");
+                using (MySqlConnection conexao = new MySqlConnection("Server=localhost;Database=agendacontato;Uid=root;Pwd=password;"))
+                {
 
-                strSql = "INSERT INTO CLIENTE (NOME, EMAIL, CPF, EMPRESA) VALUES (@NOME, @EMAIL, @CPF, @EMPRESA)";
+                    string strSql = "INSERT INTO CONTATO (NOME, EMAIL, CPF, NUMERO) VALUES (@NOME, @EMAIL, @CPF, @NUMERO)";
 
-                comando = new MySqlCommand(strSql, conexao);
-                comando.Parameters.AddWithValue("@NOME", txtNome);
-                comando.Parameters.AddWithValue("@EMAIL", txtEmail);
-                comando.Parameters.AddWithValue("@CPF", txtCpf);
-                comando.Parameters.AddWithValue("@EMPRESA", txtEmpresa);
+                    using (MySqlCommand comando = new MySqlCommand(strSql, conexao))
+                    {
+                        comando.Parameters.AddWithValue("@NOME", txtNome.Text);
+                        comando.Parameters.AddWithValue("@EMAIL", txtEmail.Text);
+                        comando.Parameters.AddWithValue("@CPF", txtCpf.Text);
+                        comando.Parameters.AddWithValue("@NUMERO", txtNumero.Text);
 
-                conexao.Open();
-                comando.ExecuteNonQuery();
+                        conexao.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Cliente registrado com sucesso!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message);
             }
-            finally
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            try
             {
-                conexao.Close();
-                conexao = null;
-                comando = null;
+                using (MySqlConnection conexao = new MySqlConnection("Server=localhost;Database=agendacontato;Uid=root;Pwd=password;"))
+                {
+
+                    string strSql = "UPDATE CONTATO SET NOME = @NOME, EMAIL = @EMAIL, CPF = @CPF, NUMERO = @NUMERO WHERE ID = @ID";
+
+                    using (MySqlCommand comando = new MySqlCommand(strSql, conexao))
+                    {
+                        comando.Parameters.AddWithValue("@ID", txtId.Text);
+                        comando.Parameters.AddWithValue("@NOME", txtNome.Text);
+                        comando.Parameters.AddWithValue("@EMAIL", txtEmail.Text);
+                        comando.Parameters.AddWithValue("@CPF", txtCpf.Text);
+                        comando.Parameters.AddWithValue("@NUMERO", txtNumero.Text);
+
+                        conexao.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Cliente editado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message);
+            }
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySqlConnection conexao = new MySqlConnection("Server=localhost;Database=agendacontato;Uid=root;Pwd=password;"))
+                {
+
+                    string strSql = "DELETE FROM CONTATO WHERE ID = @ID";
+
+                    using (MySqlCommand comando = new MySqlCommand(strSql, conexao))
+                    {
+                        comando.Parameters.AddWithValue("@ID", txtId.Text);
+
+                        conexao.Open();
+                        comando.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("Cliente excluído com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message);
+            }
+        }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySqlConnection conexao = new MySqlConnection("Server=localhost;Database=agendacontato;Uid=root;Pwd=password;"))
+                {
+
+                    string strSql = "SELECT * FROM CONTATO WHERE ID = @ID";
+
+                    using (MySqlCommand comando = new MySqlCommand(strSql, conexao))
+                    {
+                        comando.Parameters.AddWithValue("@ID", txtId.Text);
+
+                        conexao.Open();
+                        dr = comando.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            txtNome.Text = Convert.ToString(dr["nome"]);
+                            txtEmail.Text = Convert.ToString(dr["email"]);
+                            txtCpf.Text = Convert.ToString(dr["cpf"]);
+                            txtNumero.Text = Convert.ToString(dr["numero"]);
+                        }
+                    }
+                }
+                MessageBox.Show("Cliente consultado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message);
+            }
+        }
+
+        private void btnExibir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySqlConnection conexao = new MySqlConnection("Server=localhost;Database=agendacontato;Uid=root;Pwd=password;"))
+                {
+
+                    string strSql = "SELECT * FROM CONTATO";
+                    
+                    da = new MySqlDataAdapter(strSql, conexao);
+
+                    DataTable dt = new DataTable();
+
+                    da.Fill(dt);
+                    dgvDados.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao conectar com o banco de dados: " + ex.Message);
             }
         }
     }
